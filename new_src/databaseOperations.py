@@ -111,7 +111,9 @@ def fetch_user_details(email):
 def fetch_password(email):
     try:
         cur.execute(f"select password from User where email='{email}'")
-        return cur.fetchall()[0] # 0 contains the password!
+        # print(cur.fetchall()[0])
+        return cur.fetchall()[0][0] # 0 contains the password!#
+
     except:
         print("User fetch pass error!")
 
