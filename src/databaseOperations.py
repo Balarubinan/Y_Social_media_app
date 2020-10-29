@@ -113,6 +113,31 @@ def fetch_password(email):
     except:
         print("User fetch pass error!")
 
+# new functions !
+
+def increase_like(post_id):
+    try:
+        cur.execute(f"update Post set likes=likes+1 where post_id='{post_id}'")
+        con.commit()
+    except:
+        print("Update error!")
+
+def fetch_post_by_id(post_id):
+    try:
+        cur.execute(f"select * from Post where post_id='{post_id}'")
+        return cur.fetchall()[0]
+    except:
+        print("Update error!")
+
+
+def fetch_comments(post_id):
+    try:
+        cur.execute(f"select * from comment where post_id='{post_id}'")
+        return cur.fetchall()
+    except:
+        print("fetch comment error error!")
+
+
 # type in the stuff for the request DB okay??
 # don't forget to explain about auto commit
 

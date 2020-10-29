@@ -1,12 +1,15 @@
 from tkinter import *
 from tkinter import font
 from new_src.databaseOperations import fetch_password
+from new_src.session_handler import add_session,set_up_current_sessions
 
 class Login_form(Frame):
     def __init__(self,parent):
         self.parent=parent
         super(Login_form, self).__init__(parent)
         self.set_up_login()
+        self.bind('<KP_Enter>',self.login_clicked)
+        # is not working!!!
 
     def set_up_login(self):
         Label(self,text="Login to Social Media",font=font.Font(size=25)).pack()
@@ -25,17 +28,23 @@ class Login_form(Frame):
         pass2=fetch_password(user)
         print(pass2)
         if pass2==pass1:
-            print("Login Success1")
+            set_up_current_sessions()
+            add_session(user)
+            print("Login success!!")
+            while(True):
+                pass
         else:
             print("Wrong passwrod try again")
-            self.username['text']=''
-            self.pswd['text']=''
+            self.username.delete(END,0)
+            self.pswd.delete(END,0)
             self.username.pack()
-            self.pswd.pack()
 
-# root=Tk()
-# w=Login_form(root)
-# w.pack()
-# root.mainloop()
+
+# find how to create bind the enter key to the fucntion
+# find how to clear the entry Widgets
+root=Tk()
+w=Login_form(root)
+w.pack()
+root.mainloop()
 #
 

@@ -30,8 +30,8 @@ def add_to_friends(frnd1,frnd2):
 
 def del_from_friends(frnd1,frnd2):
     try:
-        cur.execute(f"delete from Friends where frnd1='{frnd1}' and frnd2='{frnd2}")
-        cur.execute(f"delete from Friends where frnd1='{frnd2}' and frnd2='{frnd1}")
+        cur.execute(f"delete from Friends where frnd1='{frnd1}' and frnd2='{frnd2}'")
+        # cur.execute(f"delete from Friends where frnd1='{frnd2}' and frnd2='{frnd1}")
         con.commit()
     except:
         print("Delete friends error!")
@@ -39,11 +39,10 @@ def del_from_friends(frnd1,frnd2):
 def fetch_friends(given_name):
     lis=[]
     try:
-        cur.execute(f"select frnd1 from Friends where frnd2='{given_name}'")
-        lis.append(cur.fetchall())
+        # cur.execute(f"select frnd1 from Friends where frnd2='{given_name}'")
+        # lis.append(cur.fetchall())
         cur.execute(f"select frnd2 from Friends where frnd1='{given_name}'")
-        lis.append(cur.fetchall())
-        return lis
+        return cur.fetchall()
     except:
         print("search friends error!")
 
@@ -108,6 +107,13 @@ def fetch_user_details(email):
     except:
         print("User fetch error!")
 
+def fetch_user_name(email):
+    # try:
+    cur.execute(f"select username from User where email='{email}'")
+    return cur.fetchall()
+    # except:
+    #     print("User name fetch error!")
+
 def fetch_password(email):
     try:
         cur.execute(f"select password from User where email='{email}'")
@@ -117,10 +123,30 @@ def fetch_password(email):
     except:
         print("User fetch pass error!")
 
+def fetch_starts_with(string):
+    try:
+        con2 = sqlite3.connect("C:\\Users\\Balarubinan\\PycharmProjects\\SocialMediaApp\\new_src\\storeDB.db")
+        cur2 = con2.cursor()
+        cur2.execute(f"select username,profile_pic_link,email from User where email like '{string}%' or username like '{string}%'")
+        return cur2.fetchall()
+    except:
+        print("Fetch Error! like")
+        return []
+
+def add_to_request(email1,email2):
+    try:
+        cur.execute(f"insert into Requests values('{email1}','{email2}')")
+        con.commit()
+    except:
+        print("Add to requests error!")
+
 # type in the stuff for the request DB okay??
 # don't forget to explain about auto commit
 
 # add_user('b@gmail','Bala','jjj','acadc')
+# print(fetch_starts_with('as'))
+# print(fetch_friends("b@gmail"))
+# del_from_friends('b@gamil',)
 
 
 
