@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import font
 from threading import Thread
-from src.databaseOperations import fetch_comments,add_comment
+from new_src.databaseOperations import fetch_comments,add_comment
 
 class Comment_dialog(Frame):
     def __init__(self,parent,user_name,post_id,font_size=15):

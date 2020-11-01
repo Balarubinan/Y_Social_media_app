@@ -140,6 +140,45 @@ def add_to_request(email1,email2):
     except:
         print("Add to requests error!")
 
+def fetch_from_requests(email):
+    try:
+        cur.execute(f"select frnd2 from Requests where frnd1='{email}'")
+        return cur.fetchall()
+    except:
+        print("Error in fetch request!")
+
+def del_from_request(email1,email2):
+    try:
+        cur.execute(f"delete from Requests where frnd1='{email1}' and frnd2='{email2}'")
+        con.commit()
+    except:
+        print("Error in del_request request!")
+
+def increase_like(post_id):
+    try:
+        cur.execute(f"update Post set likes=likes+1 where post_id='{post_id}'")
+        con.commit()
+    except:
+        print("Update error!")
+
+def fetch_post_by_id(post_id):
+    try:
+        cur.execute(f"select * from Post where post_id='{post_id}'")
+        return cur.fetchall()[0]
+    except:
+        print("Update error!")
+
+
+def fetch_comments(post_id):
+    try:
+        cur.execute(f"select * from comment where post_id='{post_id}'")
+        return cur.fetchall()
+    except:
+        print("fetch comment error error!")
+
+
+
+
 # type in the stuff for the request DB okay??
 # don't forget to explain about auto commit
 

@@ -3,9 +3,9 @@ from tkinter import font
 from PIL import Image
 from threading import Thread
 from os import system
-from src.databaseOperations import *
+from new_src.databaseOperations import *
 from PIL import ImageTk
-from src.comment_box import Comment_dialog
+from new_src.comment_box import Comment_dialog
 
 # decide how to set the intial size of the box!
 
