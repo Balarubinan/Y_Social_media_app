@@ -79,9 +79,20 @@ def delete_post(post_id):
 def fetch_user_posts(frnd_list):
     try:
         lis=[]
+        # for every friend the public posts get fetched again and again
+        # as post_id's are unique we can track duplicate post this way
+        # fetch_list maintains a list of all the post_id's fetched so far
+        fetch_list=[]
+        print("friend list:",frnd_list)
         for x in frnd_list:
             cur.execute(f"select * from Post where posted_by='{x}' or type='public'")
-            lis.extend(cur.fetchall())
+            val=cur.fetchall()
+            if val[0] not in fetch_list:
+                # adding result iff post_id is new
+                lis.extend(val)
+                fetch_list.append(val[0])
+        print("returned list is ",lis)
+        return lis
     except:
         print("Post fetch error!")
 
@@ -175,6 +186,24 @@ def fetch_comments(post_id):
         return cur.fetchall()
     except:
         print("fetch comment error error!")
+
+# post_id table functions
+
+def update_last_postid():
+    try:
+        cur.execute(f"update Last_post set last_id=last_id+1")
+        con.commit()
+    except:
+        print("Last_post_id update error")
+
+def get_new_post_id():
+    try:
+        cur.execute(f"select * from Last_post")
+        return int(cur.fetchall()[0][0])
+    except:
+        print("Last_post_id update error")
+
+
 
 
 

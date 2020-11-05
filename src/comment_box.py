@@ -4,10 +4,16 @@ from threading import Thread
 from src.databaseOperations import fetch_comments,add_comment
 
 class Comment_dialog(Frame):
-    def __init__(self,parent,user_name,post_id,font_size=15):
+    def __init__(self,parent,user_name,post_id,font_size=15,sub_parent=None,sub_parent_widget=None):
         # here the user name is the username of the person who requests the Post
         # post_id is the post_id of the Post that conatins this comment box
-        super(Comment_dialog, self).__init__(parent)
+        if sub_parent is not None:
+            super(Comment_dialog, self).__init__(sub_parent)
+            sub_parent_widget.pack_forget()
+            self.pack()
+            self.sub_parent_widget=sub_parent_widget
+        else:
+            super(Comment_dialog, self).__init__(parent)
         self.font_size=font_size
         self.post_id=post_id
         self.username=user_name
@@ -43,6 +49,17 @@ class Comment_dialog(Frame):
         add_comment(self.post_id,self.comment_box.get(),self.username)
         self.load_comments()
         self.comment_box['text']=""
+        # self.__del__()
+        # call the above statement inside a function that does the closing window stuff for tkinter
+
+    def __del__(self):
+        try:
+            self.sub_parent_widget.pack()
+        except:
+            print("Sub parent destroyed error")
+        finally:
+            self.destroy()
+
 
 
 # root=Tk()

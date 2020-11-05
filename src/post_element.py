@@ -22,12 +22,15 @@ class Post_element(Frame):
     # image refers to image path the image file uploaded to DB
     def __init__(self, parent, posted_by=None, type='F', image=None, caption=None, font_size=15):
         super(Post_element, self).__init__(parent)
+        self.parent=parent
         self.type = type
         self.image = image
         self.posted_by = posted_by
         self.caption = caption
         self.font_size = font_size
         self.post_id=None
+        # comment this when using auto-mode!
+        self.set_up_post()
 
         # testing purpose
 
@@ -40,7 +43,7 @@ class Post_element(Frame):
             # write code here to create user handle!
             # find how to align the handle and to the left!
             self.user_frame = Frame(self)
-            self.user_frame.pack()
+            self.user_frame.pack(fill=X)
             # write code to fetch user handle image here and add it to the canvas
             self.canv_user = Canvas(self.user_frame, height=25, width=25, bg='lightgreen')
             # self.user_image=fetch_user_image("somthing like this function!!")
@@ -60,7 +63,7 @@ class Post_element(Frame):
             #  creating the like and comment buttons!
 
             self.button_frame = Frame(self)
-            self.button_frame.pack()
+            self.button_frame.pack(fill=X)
 
             # create image buttons instead of text buttons!!!
             self.comment_button = Button(self.button_frame, text="Comment", font=font.Font(size=self.font_size),
@@ -75,8 +78,11 @@ class Post_element(Frame):
     def comment_button_clicked(self):
         # works perfectly!!
         # tk.top_level is another alternative
+
         self.pop_up=Tk()
         self.comment_box=Comment_dialog(self.pop_up,self.req_user,self.post_id)
+        # modified in-window version of comments box loading!!
+        # self.comment_box=Comment_dialog("kjbvfs",self.req_user,self.post_id,sub_parent=self.parent,sub_parent_widget=self)
         self.comment_box.pack()
         self.pop_up.mainloop()
 

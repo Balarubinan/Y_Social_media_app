@@ -28,6 +28,8 @@ class Post_element(Frame):
         self.caption = caption
         self.font_size = font_size
         self.post_id=None
+        # comment when using auto_mode!
+        # self.set_up_post()
 
         # testing purpose
 
@@ -47,12 +49,14 @@ class Post_element(Frame):
             # self.canv_user.create_image(25//2,25//2,image=self.user_image)
 
             self.canv_user.pack(side=LEFT)
-            Label(self.user_frame, text=self.posted_by, font=font.Font(size=self.font_size)).pack(side=LEFT)
+            Label(self.user_frame, text=fetch_user_name(self.posted_by), font=font.Font(size=self.font_size)).pack(side=LEFT)
             # part to insert the image and the caption of the Post
             if self.caption is not None:
                 self.caption_label = Label(self, text=self.caption, font=font.Font(size=self.font_size))
                 self.caption_label.pack()
-            if self.image is not None:
+            print(self.image)
+            # if self.image is not "NO_IMAGE":
+            if len(self.image)>9:
                 self.canv = Canvas(self, height=500, width=500)
                 self.img = self.resize_image(self.image, 500, 500)
                 self.canv.create_image(250, 250, image=self.img)
@@ -112,9 +116,9 @@ class Post_element(Frame):
 
 
 # driver code!
-root = Tk()
-w = Post_element(root)
-w.intialise_using_id("Miss.Chizuru",1)
-w.pack()
-w.set_up_post()
-root.mainloop()
+# root = Tk()
+# w = Post_element(root)
+# w.intialise_using_id("Miss.Chizuru",1)
+# w.pack()
+# w.set_up_post()
+# root.mainloop()
