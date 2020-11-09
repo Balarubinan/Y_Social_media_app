@@ -59,6 +59,11 @@ def remember_logged_in(email):
     pass
     # finish this function at the very end of the project!
 
+def end_session(email):
+    # there is really nothing to do here
+    # this function is for actual server prototype
+    pass
+
 # print(get_current_user_info())
 
 # add_session('b@gmail')

@@ -6,6 +6,10 @@ from os import system
 from new_src.databaseOperations import *
 from PIL import ImageTk
 from new_src.comment_box import Comment_dialog
+# newly added
+from new_src.multiple_image_view_dialog import Multiple_image_view
+from pickle import loads
+
 
 # decide how to set the intial size of the box!
 
@@ -27,7 +31,7 @@ class Post_element(Frame):
         self.posted_by = posted_by
         self.caption = caption
         self.font_size = font_size
-        self.post_id=None
+        self.post_id = None
         # comment when using auto_mode!
         # self.set_up_post()
 
@@ -41,26 +45,33 @@ class Post_element(Frame):
         else:
             # write code here to create user handle!
             # find how to align the handle and to the left!
+
             self.user_frame = Frame(self)
             self.user_frame.pack()
+
             # write code to fetch user handle image here and add it to the canvas
+
             self.canv_user = Canvas(self.user_frame, height=25, width=25, bg='lightgreen')
+
             # self.user_image=fetch_user_image("somthing like this function!!")
             # self.canv_user.create_image(25//2,25//2,image=self.user_image)
 
             self.canv_user.pack(side=LEFT)
-            Label(self.user_frame, text=fetch_user_name(self.posted_by), font=font.Font(size=self.font_size)).pack(side=LEFT)
+            Label(self.user_frame, text=fetch_user_name(self.posted_by), font=font.Font(size=self.font_size)).pack(
+                side=LEFT)
             # part to insert the image and the caption of the Post
             if self.caption is not None:
                 self.caption_label = Label(self, text=self.caption, font=font.Font(size=self.font_size))
                 self.caption_label.pack()
-            print(self.image)
             # if self.image is not "NO_IMAGE":
-            if len(self.image)>9:
+            if len(self.images_id) > 0:
                 self.canv = Canvas(self, height=500, width=500)
-                self.img = self.resize_image(self.image, 500, 500)
+                self.img = self.images_id[0] # showing just the first image in the post element
+                print("loaded", self.img)
+                self.img = self.resize_image(self.img, 500, 500)
                 self.canv.create_image(250, 250, image=self.img)
                 self.canv.pack()
+
             #  creating the like and comment buttons!
 
             self.button_frame = Frame(self)
@@ -74,34 +85,39 @@ class Post_element(Frame):
                                       command=self.like_button_clicked)
             self.like_button.grid(row=0, column=1)
 
+            # just for debugging
+            # self.show_multipe_images()
+
             # add a tiled button to let the user view the comments!
 
     def comment_button_clicked(self):
         # works perfectly!!
         # tk.top_level is another alternative
-        self.pop_up=Tk()
-        self.comment_box=Comment_dialog(self.pop_up,self.req_user,self.post_id)
+        self.pop_up = Tk()
+        self.comment_box = Comment_dialog(self.pop_up, self.req_user, self.post_id)
         self.comment_box.pack()
         self.pop_up.mainloop()
 
     def like_button_clicked(self):
-        if self.like_button['bg']=="lightblue":
+        if self.like_button['bg'] == "lightblue":
             return
         else:
             increase_like(self.post_id)
-            self.like_button['bg']="lightblue"
+            self.like_button['bg'] = "lightblue"
 
         # updating the image accordingly!
 
-    def intialise_using_id(self,requested_user,post_id):
+    def intialise_using_id(self, requested_user, post_id):
         # assuming that the Post aldready exists in the DB
-        self.req_user=requested_user
-        self.post_id=post_id
-        self.post_id,self.posted_by,self.type,self.caption,self.likes,self.images_id=fetch_post_by_id(post_id)
-        print(self.post_id,self.posted_by,self.type,self.caption,self.likes,self.images_id)
+        self.req_user = requested_user
+        self.post_id = post_id
+        self.post_id, self.posted_by, self.type, self.caption, self.likes, self.images_id = fetch_post_by_id(post_id)
+        self.images_id=loads(self.images_id)
+        print("printd", self.post_id, self.posted_by, self.type, self.caption, self.likes, self.images_id)
+
         # req_user is the one who is viewing the post and hence should be got from outside!
 
-    def write_to_base(self,uploaded_image):
+    def write_to_base(self, uploaded_image):
         '''function to save post to the DB'''
         # uploaded image is a path of the selected image and must be passed to this function!
         # fetch the last post_id and update
@@ -114,11 +130,26 @@ class Post_element(Frame):
         img = img.resize((h, w), Image.ANTIALIAS)
         return (ImageTk.PhotoImage(img))
 
+    def show_multipe_images(self):
+        print("Calling mmultiple images view!!")
+        # print("self.images_id",loads(self.images_id))
+        # due to usage of loads the old full path variable will show errors!
+        # usually blob lengths are much greater than 10
+        if len(self.images_id) > 0:
+            # data = loads(self.images_id)
+            # print(data)
+            pop_up = Toplevel()
+            Multiple_image_view(pop_up,self.images_id).pack()
+            pop_up.title("Posted images")
+            pop_up.mainloop()
+
+    # create an extra button to show the popup
+
 
 # driver code!
 # root = Tk()
 # w = Post_element(root)
-# w.intialise_using_id("Miss.Chizuru",1)
+# w.intialise_using_id("Miss.Chizuru", 8)
 # w.pack()
 # w.set_up_post()
 # root.mainloop()

@@ -1,4 +1,5 @@
 import sqlite3
+from pickle import dumps,loads
 
 try:
     con=sqlite3.connect("C:\\Users\\Balarubinan\\PycharmProjects\\SocialMediaApp\\new_src\\storeDB.db")
@@ -203,11 +204,48 @@ def get_new_post_id():
     except:
         print("Last_post_id update error")
 
+def update_user_profile_pic(email,path):
+    try:
+        # path=dumps(path)
+        cur.execute(f"select * from Userpic where posted_by='{email}'")
+        if len(cur.fetchall())>0:
+            cur.execute(f"update Userpic set path='{path}' where posted_by='{email}'")
+            con.commit()
+        else:
+            cur.execute(f"insert into Userpic values('{email}','{path}')")
+            con.commit()
+    except:
+        print("User pic update error!")
+
+def change_password(email,password):
+    try:
+        cur.execute(f"update User set password='{password}' where email='{email}'")
+        con.commit()
+    except:
+        print("Change password error!!!")
+
+def change_username(email,new_name):
+    try:
+        cur.execute(f"update User set username='{new_name}' where email='{email}'")
+        con.commit()
+    except:
+        print("Change username error!!!")
+
+def get_user_prof_pic(email):
+    try:
+        cur.execute(f"select path from Userpic where posted_by='{email}'")
+        return(cur.fetchall()[0][0])
+    except:
+        print("prof pic get error!")
 
 
 
 
 
+
+# change_password('rick@gmail.com',"ricky!")
+
+# update_user_profile_pic('rick@gmail.com',"this//seems//like//a path")
 # type in the stuff for the request DB okay??
 # don't forget to explain about auto commit
 
