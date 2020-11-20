@@ -152,6 +152,7 @@ class Post_element(Frame):
             pop_up.title("Posted images")
             pop_up.mainloop()
         self.aldready_open=False
+        # setting false
 
     # create an extra button to show the popup
 

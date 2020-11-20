@@ -25,7 +25,7 @@ class Friend_search(Frame):
         # causes the app to crash
         # the more effective method of handling this function would be to create
         # an event handling function
-        
+
         while(False): # Debug -> disabled
             self.res=[]
             search_str=self.search_bar.get()
