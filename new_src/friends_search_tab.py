@@ -21,7 +21,12 @@ class Friend_search(Frame):
     def start_fetching(self):
         # self.add_result()
         self.prev='^'
-        while(True):
+        # this function creates a thread that east up most of the memory
+        # causes the app to crash
+        # the more effective method of handling this function would be to create
+        # an event handling function
+        
+        while(False): # Debug -> disabled
             self.res=[]
             search_str=self.search_bar.get()
             if search_str==self.prev:
@@ -60,7 +65,7 @@ class Friend_search(Frame):
             print("function called!!")
         return add_friend_button_clicked
 
-root=Tk()
-w=Friend_search(root)
-w.pack()
-root.mainloop()
+# root=Tk()
+# w=Friend_search(root)
+# w.pack()
+# root.mainloop()

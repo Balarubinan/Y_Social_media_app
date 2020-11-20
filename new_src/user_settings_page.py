@@ -75,7 +75,7 @@ class User_settings(Frame):
         img = img.resize((h, w), Image.ANTIALIAS)
         return (ImageTk.PhotoImage(img))
 
-root=Tk()
-User_settings(root,'b@gmail').pack()
-root.mainloop()
+# root=Tk()
+# User_settings(root,'b@gmail').pack()
+# root.mainloop()
 

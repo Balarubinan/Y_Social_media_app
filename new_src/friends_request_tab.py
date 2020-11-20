@@ -32,7 +32,7 @@ class RequestTab(Frame):
             self.pack_forget()
         return action_function2
 
-root=Tk()
-RequestTab(root,'b@gmail').pack()
-root.mainloop()
+# root=Tk()
+# RequestTab(root,'b@gmail').pack()
+# root.mainloop()
 

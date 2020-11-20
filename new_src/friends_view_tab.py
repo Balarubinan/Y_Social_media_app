@@ -41,8 +41,8 @@ class ViewFriends(Frame):
         return action_function
 
 
-root = Tk()
-w = ViewFriends(root,"b@gmail")
-w.pack()
-
-root.mainloop()
+# root = Tk()
+# w = ViewFriends(root,"b@gmail")
+# w.pack()
+#
+# root.mainloop()

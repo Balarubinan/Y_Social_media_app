@@ -9,8 +9,8 @@ class TabbedWidget(Frame):
         self.tab_dir = tab_dir
         super(TabbedWidget, self).__init__(parent)
         self.frames = {}
-        self.main_frame = Frame(self, bg='yellow')
-        self.button_frame = Frame(self, bg='blue')
+        self.main_frame = Frame(self, bg='')
+        self.button_frame = Frame(self, bg='')
         self.button_frame.pack(side=tab_dir)
         self.main_frame.pack(side=tab_dir)
         # bb=Button(self.main_frame,text="this").pack()

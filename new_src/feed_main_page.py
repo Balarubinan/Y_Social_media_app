@@ -12,7 +12,7 @@ class Feed_page(Frame):
     def __init__(self,parent,user_email):
         self.user_email=user_email
         super(Feed_page, self).__init__(parent)
-        self.main_frame=ScrollableFrame(self,40,150)
+        self.main_frame=ScrollableFrame(self,100,150)
         self.bottom_frame=Frame(self)
         self.main_frame.pack(fill=X)
         self.bottom_frame.pack(fill=X)

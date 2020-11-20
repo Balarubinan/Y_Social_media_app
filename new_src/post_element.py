@@ -32,6 +32,8 @@ class Post_element(Frame):
         self.caption = caption
         self.font_size = font_size
         self.post_id = None
+        # True if aldready an Multiple image view exists!!
+        self.aldready_open=False
         # comment when using auto_mode!
         # self.set_up_post()
 
@@ -64,13 +66,15 @@ class Post_element(Frame):
                 self.caption_label = Label(self, text=self.caption, font=font.Font(size=self.font_size))
                 self.caption_label.pack()
             # if self.image is not "NO_IMAGE":
-            if len(self.images_id) > 0:
+            if len(self.images_id) > 0 and self.images_id!="NO_IMAGE":
                 self.canv = Canvas(self, height=500, width=500)
                 self.img = self.images_id[0] # showing just the first image in the post element
                 print("loaded", self.img)
                 self.img = self.resize_image(self.img, 500, 500)
                 self.canv.create_image(250, 250, image=self.img)
                 self.canv.pack()
+                self.canv.create_rectangle(0, 0, 500, 500, fill="", outline="", tags="button")
+                self.canv.tag_bind("button", "<Button-1>", self.show_multipe_images)
 
             #  creating the like and comment buttons!
 
@@ -112,7 +116,9 @@ class Post_element(Frame):
         self.req_user = requested_user
         self.post_id = post_id
         self.post_id, self.posted_by, self.type, self.caption, self.likes, self.images_id = fetch_post_by_id(post_id)
-        self.images_id=loads(self.images_id)
+        print("self.imagesId",self.images_id=="NO_IMAGE")
+        if self.images_id!="NO_IMAGE":
+            self.images_id=loads(self.images_id)
         print("printd", self.post_id, self.posted_by, self.type, self.caption, self.likes, self.images_id)
 
         # req_user is the one who is viewing the post and hence should be got from outside!
@@ -130,8 +136,11 @@ class Post_element(Frame):
         img = img.resize((h, w), Image.ANTIALIAS)
         return (ImageTk.PhotoImage(img))
 
-    def show_multipe_images(self):
-        print("Calling mmultiple images view!!")
+    def show_multipe_images(self,event):
+        if self.aldready_open==True:
+            return
+        self.aldready_open=True
+        print("Calling multiple images view!!")
         # print("self.images_id",loads(self.images_id))
         # due to usage of loads the old full path variable will show errors!
         # usually blob lengths are much greater than 10
@@ -142,6 +151,7 @@ class Post_element(Frame):
             Multiple_image_view(pop_up,self.images_id).pack()
             pop_up.title("Posted images")
             pop_up.mainloop()
+        self.aldready_open=False
 
     # create an extra button to show the popup
 
